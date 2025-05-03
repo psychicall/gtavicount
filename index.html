@@ -3,8 +3,9 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Countdown to May 26, 2026</title>
+  <title>Countdown to GTA6 Release</title>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@700&display=swap" rel="stylesheet">
+  <link rel="icon" type="image/x-icon" href="fav.ico">
   <style>
     body {
       margin: 0;
@@ -43,7 +44,7 @@
       position: relative;
       width: 80%;
       max-width: 800px;
-      padding-bottom: 45%; /* 16:9 aspect ratio */
+      padding-bottom: 45%; 
       height: 0;
       margin-bottom: 2rem;
     }
@@ -86,16 +87,16 @@
     background: rgb(0, 0, 0);
   }
   body {
-    overflow: hidden; /* Prevent scrolling while overlay is active */
+    overflow: hidden; 
   }
   body.revealed {
-    overflow: auto; /* Allow scrolling after overlay is removed */
+    overflow: auto; 
   }
   .content {
-    display: none; /* Initially hide main content */
+    display: none; 
   }
   body.revealed .content {
-    display: block; /* Show main content after overlay click */
+    display: block; /
   }
 
   .saper-container {
@@ -109,7 +110,7 @@
     box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
     backdrop-filter: blur(5px);
     width: fit-content;
-    border: 2px solid #ff0055; /* Neon GTA-style border */
+    border: 2px solid #ff0055; 
   }
   .saper-grid {
     display: grid;
@@ -194,14 +195,14 @@
       
       timerElement.textContent = `${days} days ${hours} hours ${minutes} minutes ${seconds} seconds`;
 
-      // Store current time in localStorage
+  
       localStorage.setItem('lastUpdateTime', now);
     }
 
-    // Check if there's a stored time to ensure continuity
+
     const lastUpdateTime = localStorage.getItem('lastUpdateTime');
     if (lastUpdateTime) {
-      // Use the stored time to maintain continuity
+
       updateTimer();
     }
 
@@ -216,20 +217,20 @@
     particle.className = 'particle';
     document.body.appendChild(particle);
 
-    // Random size between 5px and 15px
+
     const size = Math.random() * 10 + 5;
     particle.style.width = `${size}px`;
     particle.style.height = `${size}px`;
 
-    // Position the particle at the cursor
+  
     particle.style.left = `${e.clientX - size / 2}px`;
     particle.style.top = `${e.clientY - size / 2}px`;
 
-    // Random color (shades of white, blue, or pink for a cool effect)
+
     const colors = ['#ffffff', '#87ceeb', '#ff69b4'];
     particle.style.background = colors[Math.floor(Math.random() * colors.length)];
 
-    // Remove particle after animation ends
+ 
     setTimeout(() => {
       particle.remove();
     }, 1000);
@@ -238,7 +239,6 @@
   const hoverDiv = document.getElementById('hoverDiv');
   const audio = document.getElementById('backgroundMusic');
 
-  // Play music and hide div on click anywhere
   document.addEventListener('click', () => {
     hoverDiv.style.opacity = '0';
     setTimeout(() => {
@@ -260,7 +260,7 @@
   const clickSound = document.getElementById('clickSound');
   const explosionSound = document.getElementById('explosionSound');
 
-  // Initialize the grid
+  
   for (let i = 0; i < GRID_SIZE; i++) {
     grid[i] = [];
     for (let j = 0; j < GRID_SIZE; j++) {
@@ -268,7 +268,7 @@
     }
   }
 
-  // Place mines randomly
+
   let minesPlaced = 0;
   while (minesPlaced < MINE_COUNT) {
     const row = Math.floor(Math.random() * GRID_SIZE);
@@ -279,7 +279,7 @@
     }
   }
 
-  // Calculate adjacent mines for each tile
+
   for (let i = 0; i < GRID_SIZE; i++) {
     for (let j = 0; j < GRID_SIZE; j++) {
       if (grid[i][j].mine) continue;
@@ -334,7 +334,7 @@
       tile.textContent = tileData.adjacentMines;
       tile.style.color = getNumberColor(tileData.adjacentMines);
     } else {
-      // Auto-reveal adjacent tiles if no adjacent mines
+     
       for (let di = -1; di <= 1; di++) {
         for (let dj = -1; dj <= 1; dj++) {
           const ni = row + di;
@@ -363,7 +363,7 @@
     for (let i = 0; i < GRID_SIZE; i++) {
       for (let j = 0; j < GRID_SIZE; j++) {
         const tile = saperGrid.children[i * GRID_SIZE + j];
-        tile.style.pointerEvents = 'none'; // Disable further clicks
+        tile.style.pointerEvents = 'none'; 
         if (grid[i][j].mine && !won) {
           tile.classList.add('mine');
         }

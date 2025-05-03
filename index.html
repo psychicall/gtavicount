@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Countdown to GTA6 Release</title>
+  <title>GTA6 Countdown</title>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@700&display=swap" rel="stylesheet">
   <link rel="icon" type="image/x-icon" href="fav.ico">
   <style>
@@ -87,16 +87,16 @@
     background: rgb(0, 0, 0);
   }
   body {
-    overflow: hidden; 
+    overflow: hidden;
   }
   body.revealed {
-    overflow: auto; 
+    overflow: auto;
   }
   .content {
-    display: none; 
+    display: none;
   }
   body.revealed .content {
-    display: block; /
+    display: block; 
   }
 
   .saper-container {
@@ -110,7 +110,7 @@
     box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
     backdrop-filter: blur(5px);
     width: fit-content;
-    border: 2px solid #ff0055; 
+    border: 2px solid #ff0055;
   }
   .saper-grid {
     display: grid;
@@ -195,42 +195,33 @@
       
       timerElement.textContent = `${days} days ${hours} hours ${minutes} minutes ${seconds} seconds`;
 
-  
       localStorage.setItem('lastUpdateTime', now);
     }
 
-
     const lastUpdateTime = localStorage.getItem('lastUpdateTime');
     if (lastUpdateTime) {
-
       updateTimer();
     }
 
-    // Update timer every second
     setInterval(updateTimer, 1000);
 
 
 
     document.addEventListener('mousemove', (e) => {
-    // Create a particle
     const particle = document.createElement('div');
     particle.className = 'particle';
     document.body.appendChild(particle);
-
 
     const size = Math.random() * 10 + 5;
     particle.style.width = `${size}px`;
     particle.style.height = `${size}px`;
 
-  
     particle.style.left = `${e.clientX - size / 2}px`;
     particle.style.top = `${e.clientY - size / 2}px`;
-
 
     const colors = ['#ffffff', '#87ceeb', '#ff69b4'];
     particle.style.background = colors[Math.floor(Math.random() * colors.length)];
 
- 
     setTimeout(() => {
       particle.remove();
     }, 1000);
@@ -260,14 +251,12 @@
   const clickSound = document.getElementById('clickSound');
   const explosionSound = document.getElementById('explosionSound');
 
-  
   for (let i = 0; i < GRID_SIZE; i++) {
     grid[i] = [];
     for (let j = 0; j < GRID_SIZE; j++) {
       grid[i][j] = { mine: false, revealed: false, flagged: false, adjacentMines: 0 };
     }
   }
-
 
   let minesPlaced = 0;
   while (minesPlaced < MINE_COUNT) {
@@ -278,7 +267,6 @@
       minesPlaced++;
     }
   }
-
 
   for (let i = 0; i < GRID_SIZE; i++) {
     for (let j = 0; j < GRID_SIZE; j++) {
@@ -297,7 +285,6 @@
     }
   }
 
-  // Render the grid
   for (let i = 0; i < GRID_SIZE; i++) {
     for (let j = 0; j < GRID_SIZE; j++) {
       const tile = document.createElement('div');
@@ -334,7 +321,6 @@
       tile.textContent = tileData.adjacentMines;
       tile.style.color = getNumberColor(tileData.adjacentMines);
     } else {
-     
       for (let di = -1; di <= 1; di++) {
         for (let dj = -1; dj <= 1; dj++) {
           const ni = row + di;
@@ -363,7 +349,7 @@
     for (let i = 0; i < GRID_SIZE; i++) {
       for (let j = 0; j < GRID_SIZE; j++) {
         const tile = saperGrid.children[i * GRID_SIZE + j];
-        tile.style.pointerEvents = 'none'; 
+        tile.style.pointerEvents = 'none';
         if (grid[i][j].mine && !won) {
           tile.classList.add('mine');
         }

@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Countdown to May 26, 2026</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@700&display=swap" rel="stylesheet">
+  <style>
+    body {
+      margin: 0;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: url('https://i.redd.it/kw9580jk7i4c1.png') no-repeat center center fixed;
+      background-size: cover;
+      font-family: 'Poppins', sans-serif;
+      color: #fff;
+      text-align: center;
+      overflow: hidden;
+    }
+    .timer-container {
+      background: rgba(122, 122, 122, 0.068);
+      padding: 2rem 4rem;
+      border-radius: 15px;
+      backdrop-filter: blur(2px);
+    }
+    #timer {
+      font-size: 3.5rem;
+      letter-spacing: 2px;
+      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.274);
+    }
+    @media (max-width: 600px) {
+      #timer {
+        font-size: 2rem;
+      }
+      .timer-container {
+        padding: 1.5rem 2rem;
+      }
+      
+    }
+    .video-container {
+      position: relative;
+      width: 80%;
+      max-width: 800px;
+      padding-bottom: 45%; /* 16:9 aspect ratio */
+      height: 0;
+      margin-bottom: 2rem;
+    }
+    .video-container iframe {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      border: none;
+      border-radius: 10px;
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.5);
+    }
+    .particle {
+    position: absolute;
+    border-radius: 50%;
+    pointer-events: none;
+    background: rgba(255, 255, 255, 0.8);
+    box-shadow: 0 0 8px rgba(255, 255, 255, 0.6);
+    animation: fadeOut 1s ease-out forwards;
+  }
+  .hover-div {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgb(0, 0, 0);
+    color: #fff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: 'Poppins', sans-serif;
+    font-size: 2.5rem;
+    cursor: pointer;
+    z-index: 1000;
+    transition: opacity 0.3s ease;
+  }
+  .hover-div:hover {
+    background: rgb(0, 0, 0);
+  }
+  body {
+    overflow: hidden; /* Prevent scrolling while overlay is active */
+  }
+  body.revealed {
+    overflow: auto; /* Allow scrolling after overlay is removed */
+  }
+  .content {
+    display: none; /* Initially hide main content */
+  }
+  body.revealed .content {
+    display: block; /* Show main content after overlay click */
+  }
+
+  .saper-container {
+    margin: 2rem auto;
+    text-align: center;
+    font-family: 'Poppins', sans-serif;
+    color: #fff;
+    background: rgba(0, 0, 0, 0.7);
+    padding: 1.5rem;
+    border-radius: 10px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(5px);
+    width: fit-content;
+    border: 2px solid #ff0055; /* Neon GTA-style border */
+  }
+  .saper-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 50px);
+    gap: 2px;
+    margin: 1rem auto;
+    background: #222;
+    padding: 5px;
+    border-radius: 5px;
+  }
+  .saper-tile {
+    width: 50px;
+    height: 50px;
+    background: #444;
+    border: 1px solid #666;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.2rem;
+    cursor: pointer;
+    transition: background 0.2s;
+  }
+  .saper-tile.revealed {
+    background: #111;
+    border: 1px solid #333;
+  }
+  .saper-tile.mine {
+    background: #ff0055 url('https://img.icons8.com/emoji/48/000000/bomb-emoji.png') no-repeat center center;
+    background-size: 30px;
+  }
+  .saper-tile.flagged {
+    background: #444 url('https://img.icons8.com/emoji/48/000000/flag-emoji.png') no-repeat center center;
+    background-size: 30px;
+  }
+  .saper-tile:hover:not(.revealed) {
+    background: #555;
+  }
+  .saper-message {
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
+  }
+  .saper-message a {
+    color: #ff0055;
+    text-decoration: none;
+    font-weight: bold;
+  }
+  .saper-message a:hover {
+    color: #ff3388;
+  }
+  </style>
+</head>
+<body>
+    <div class="hover-div" id="hoverDiv">Click to check how much left</div>
+<audio id="backgroundMusic" src="lroad.mp3" loop></audio>
+  <div class="timer-container">
+    <div id="timer">0 days 0 hours 0 minutes 0 seconds</div>
+    <br>
+  </div>
+  <br>
+
+  <script>
+    const targetDate = new Date('May 26, 2026 00:00:00').getTime();
+    const timerElement = document.getElementById('timer');
+
+    function updateTimer() {
+      const now = new Date().getTime();
+      const distance = targetDate - now;
+
+      if (distance < 0) {
+        timerElement.textContent = 'Time has passed!';
+        return;
+      }
+
+      const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+      const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+      const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+      const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+
+
+      
+      timerElement.textContent = `${days} days ${hours} hours ${minutes} minutes ${seconds} seconds`;
+
+      // Store current time in localStorage
+      localStorage.setItem('lastUpdateTime', now);
+    }
+
+    // Check if there's a stored time to ensure continuity
+    const lastUpdateTime = localStorage.getItem('lastUpdateTime');
+    if (lastUpdateTime) {
+      // Use the stored time to maintain continuity
+      updateTimer();
+    }
+
+    // Update timer every second
+    setInterval(updateTimer, 1000);
+
+
+
+    document.addEventListener('mousemove', (e) => {
+    // Create a particle
+    const particle = document.createElement('div');
+    particle.className = 'particle';
+    document.body.appendChild(particle);
+
+    // Random size between 5px and 15px
+    const size = Math.random() * 10 + 5;
+    particle.style.width = `${size}px`;
+    particle.style.height = `${size}px`;
+
+    // Position the particle at the cursor
+    particle.style.left = `${e.clientX - size / 2}px`;
+    particle.style.top = `${e.clientY - size / 2}px`;
+
+    // Random color (shades of white, blue, or pink for a cool effect)
+    const colors = ['#ffffff', '#87ceeb', '#ff69b4'];
+    particle.style.background = colors[Math.floor(Math.random() * colors.length)];
+
+    // Remove particle after animation ends
+    setTimeout(() => {
+      particle.remove();
+    }, 1000);
+  });
+
+  const hoverDiv = document.getElementById('hoverDiv');
+  const audio = document.getElementById('backgroundMusic');
+
+  // Play music and hide div on click anywhere
+  document.addEventListener('click', () => {
+    hoverDiv.style.opacity = '0';
+    setTimeout(() => {
+      hoverDiv.style.display = 'none';
+    }, 300);
+    audio.play().catch(err => {
+      console.log('Audio playback failed:', err);
+    });
+  });
+
+  const GRID_SIZE = 5;
+  const MINE_COUNT = 5;
+  const grid = [];
+  let revealedTiles = 0;
+  const totalSafeTiles = GRID_SIZE * GRID_SIZE - MINE_COUNT;
+
+  const saperGrid = document.getElementById('saperGrid');
+  const saperMessage = document.getElementById('saperMessage');
+  const clickSound = document.getElementById('clickSound');
+  const explosionSound = document.getElementById('explosionSound');
+
+  // Initialize the grid
+  for (let i = 0; i < GRID_SIZE; i++) {
+    grid[i] = [];
+    for (let j = 0; j < GRID_SIZE; j++) {
+      grid[i][j] = { mine: false, revealed: false, flagged: false, adjacentMines: 0 };
+    }
+  }
+
+  // Place mines randomly
+  let minesPlaced = 0;
+  while (minesPlaced < MINE_COUNT) {
+    const row = Math.floor(Math.random() * GRID_SIZE);
+    const col = Math.floor(Math.random() * GRID_SIZE);
+    if (!grid[row][col].mine) {
+      grid[row][col].mine = true;
+      minesPlaced++;
+    }
+  }
+
+  // Calculate adjacent mines for each tile
+  for (let i = 0; i < GRID_SIZE; i++) {
+    for (let j = 0; j < GRID_SIZE; j++) {
+      if (grid[i][j].mine) continue;
+      let count = 0;
+      for (let di = -1; di <= 1; di++) {
+        for (let dj = -1; dj <= 1; dj++) {
+          const ni = i + di;
+          const nj = j + dj;
+          if (ni >= 0 && ni < GRID_SIZE && nj >= 0 && nj < GRID_SIZE && grid[ni][nj].mine) {
+            count++;
+          }
+        }
+      }
+      grid[i][j].adjacentMines = count;
+    }
+  }
+
+  // Render the grid
+  for (let i = 0; i < GRID_SIZE; i++) {
+    for (let j = 0; j < GRID_SIZE; j++) {
+      const tile = document.createElement('div');
+      tile.className = 'saper-tile';
+      tile.dataset.row = i;
+      tile.dataset.col = j;
+      tile.addEventListener('click', () => revealTile(i, j));
+      tile.addEventListener('contextmenu', (e) => {
+        e.preventDefault();
+        flagTile(i, j);
+      });
+      saperGrid.appendChild(tile);
+    }
+  }
+
+  function revealTile(row, col) {
+    const tileData = grid[row][col];
+    if (tileData.revealed || tileData.flagged) return;
+
+    clickSound.play().catch(err => console.log('Click sound failed:', err));
+    tileData.revealed = true;
+    revealedTiles++;
+    const tile = saperGrid.children[row * GRID_SIZE + col];
+    tile.classList.add('revealed');
+
+    if (tileData.mine) {
+      tile.classList.add('mine');
+      explosionSound.play().catch(err => console.log('Explosion sound failed:', err));
+      endGame(false);
+      return;
+    }
+
+    if (tileData.adjacentMines > 0) {
+      tile.textContent = tileData.adjacentMines;
+      tile.style.color = getNumberColor(tileData.adjacentMines);
+    } else {
+      // Auto-reveal adjacent tiles if no adjacent mines
+      for (let di = -1; di <= 1; di++) {
+        for (let dj = -1; dj <= 1; dj++) {
+          const ni = row + di;
+          const nj = col + dj;
+          if (ni >= 0 && ni < GRID_SIZE && nj >= 0 && nj < GRID_SIZE) {
+            revealTile(ni, nj);
+          }
+        }
+      }
+    }
+
+    if (revealedTiles === totalSafeTiles) {
+      endGame(true);
+    }
+  }
+
+  function flagTile(row, col) {
+    const tileData = grid[row][col];
+    if (tileData.revealed) return;
+    tileData.flagged = !tileData.flagged;
+    const tile = saperGrid.children[row * GRID_SIZE + col];
+    tile.classList.toggle('flagged');
+  }
+
+  function endGame(won) {
+    for (let i = 0; i < GRID_SIZE; i++) {
+      for (let j = 0; j < GRID_SIZE; j++) {
+        const tile = saperGrid.children[i * GRID_SIZE + j];
+        tile.style.pointerEvents = 'none'; // Disable further clicks
+        if (grid[i][j].mine && !won) {
+          tile.classList.add('mine');
+        }
+      }
+    }
+    saperMessage.innerHTML = won
+      ? 'Wygrałeś! <a href="javascript:location.reload()">Zagraj ponownie</a>'
+      : 'Przegrałeś! <a href="javascript:location.reload()">Zagraj ponownie</a>';
+  }
+
+  function getNumberColor(num) {
+    const colors = ['#1e90ff', '#32cd32', '#ff4500', '#9400d3', '#00ced1', '#ff1493', '#7fff00', '#ff69b4'];
+    return colors[num - 1] || '#fff';
+  }
+
+
+  </script>
+</body>
+</html>
